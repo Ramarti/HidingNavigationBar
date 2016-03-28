@@ -52,6 +52,9 @@ public class HidingNavigationBarManager: NSObject, UIScrollViewDelegate, UIGestu
 	private var currentState = HidingNavigationBarState.Open
 	private var previousState = HidingNavigationBarState.Open
 	
+    //Scroll insets
+    public private(set) var scrollInsets: UIEdgeInsets!
+    
 	public init(viewController: UIViewController, scrollView: UIScrollView){
 		if viewController.navigationController == nil || viewController.navigationController?.navigationBar == nil {
 			fatalError("ViewController must be within a UINavigationController")
@@ -194,6 +197,10 @@ public class HidingNavigationBarManager: NSObject, UIScrollViewDelegate, UIGestu
 		
 		handleScrolling()
 	}
+    
+    public func expandTabBar() {
+        tabBarController?.expand()
+    }
 	
 	//MARK: NSNotification
 	
@@ -324,7 +331,7 @@ public class HidingNavigationBarManager: NSObject, UIScrollViewDelegate, UIGestu
             contentInset.top = top
             scrollView.contentInset = contentInset
         }
-        var scrollInsets = scrollView.scrollIndicatorInsets
+        scrollInsets = scrollView.scrollIndicatorInsets
         scrollInsets.top = top
         scrollView.scrollIndicatorInsets = scrollInsets
         delegate?.hidingNavigationBarManagerDidUpdateScrollViewInsets(self)
